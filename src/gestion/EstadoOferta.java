@@ -1,7 +1,7 @@
 /**
  * 
  */
-package oferta;
+package gestion;
 
 /**
  * 
@@ -22,3 +22,4 @@ public enum EstadoOferta {
         return this.estado;
     }
 }
+   

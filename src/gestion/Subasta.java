@@ -1,48 +1,59 @@
-/**
- * 
- */
 package gestion;
 
 import obraDeArte.ObraDeArte;
-import usuario.Comprador;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+public class Subasta implements Serializable {
+    private String id;
+    private ObraDeArte obra;
+    private LocalDateTime fechaInicio;
+    private LocalDateTime fechaFin;
+    private double valorInicial;
+    private double valorMinimo;
+    private List<Oferta> ofertas;
+    private EstadoSubasta estado;
 
-import oferta.Oferta;
-
-public class Subasta {
-	
-    private String nombre;
-    private String descripcion;
-    private EstadoSubasta estado; 
-    private Map<String, Oferta> ofertas;
-
-    public Subasta(String nombre, String descripcion) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.estado = EstadoSubasta.EN_ESPERA; 
-        this.ofertas = new HashMap<>();
+    public Subasta(String id, ObraDeArte obra, LocalDateTime fechaInicio, LocalDateTime fechaFin, double valorInicial, double valorMinimo) {
+        this.id = id;
+        this.obra = obra;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.valorInicial = valorInicial;
+        this.valorMinimo = valorMinimo;
+        this.ofertas = new ArrayList<>();
+        this.estado = EstadoSubasta.PENDIENTE;
     }
 
-    // Getters y Setters
-    public String getNombre() {
-        return nombre;
+    public String getId() {
+        return id;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public ObraDeArte getObra() {
+        return obra;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public LocalDateTime getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public LocalDateTime getFechaFin() {
+        return fechaFin;
+    }
+
+    public double getValorInicial() {
+        return valorInicial;
+    }
+
+    public double getValorMinimo() {
+        return valorMinimo;
+    }
+
+    public List<Oferta> getOfertas() {
+        return ofertas;
     }
 
     public EstadoSubasta getEstado() {
@@ -53,27 +64,17 @@ public class Subasta {
         this.estado = estado;
     }
 
-    public Map<String, Oferta> getOfertas() {
-        return ofertas;
+    public void agregarOferta(Oferta oferta) {
+        ofertas.add(oferta);
     }
 
-    // Métodos para la gestión de la subasta
-    public void registrarOferta(Oferta oferta) {
-        // Añade la oferta a la subasta
-        ofertas.put(oferta.getOferta(), oferta);
-    }
-
-    public void iniciarSubasta() {
-
-        if(estado == EstadoSubasta.EN_ESPERA) {
-            estado = EstadoSubasta.EN_ACTIVA;
+    public Oferta getOfertaGanadora() {
+        if (ofertas.isEmpty()) {
+            return null;
         }
+        ofertas.sort((o1, o2) -> Double.compare(o2.getValorOfrecido(), o1.getValorOfrecido()));
+        return ofertas.get(0).getValorOfrecido() >= valorMinimo ? ofertas.get(0) : null;
     }
-
-    public void finalizarSubasta() {
-        // Cambia el estado de la subasta a 'FINALIZADA'
-        estado = EstadoSubasta.FINALIZADA;
-
-    }
-
 }
+
+

@@ -1,23 +1,44 @@
 package usuario;
 
-import gestion.EstadoOferta;
 import gestion.Oferta;
 import gestion.Subasta;
+import gestion.EstadoOferta;
+import gestion.Inventario;
 import obraDeArte.ObraDeArte;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Comprador extends Usuario {
+public class PropietarioComprador extends Usuario {
+    private List<ObraDeArte> obrasPropias;
     private List<Oferta> ofertas;
     private List<ObraDeArte> comprasRealizadas;
 
-    public Comprador(String id, String nombre, String email, String password, boolean verificado, double limiteCompra) {
+    public PropietarioComprador(String id, String nombre, String email, String password, boolean verificado, double limiteCompra) {
         super(id, nombre, email, password, verificado, limiteCompra);
+        this.obrasPropias = new ArrayList<>();
         this.ofertas = new ArrayList<>();
         this.comprasRealizadas = new ArrayList<>();
     }
 
+    // Métodos de Propietario
+    public List<ObraDeArte> getObrasPropias() {
+        return obrasPropias;
+    }
+
+    public void agregarObra(ObraDeArte obra) {
+        obrasPropias.add(obra);
+    }
+
+    public void eliminarObra(String obraId) {
+        obrasPropias.removeIf(obra -> obra.getId().equals(obraId));
+    }
+
+    public ObraDeArte consultarObra(String obraId) {
+        return obrasPropias.stream().filter(obra -> obra.getId().equals(obraId)).findFirst().orElse(null);
+    }
+
+    // Métodos de Comprador
     public List<Oferta> getOfertas() {
         return ofertas;
     }
@@ -43,5 +64,3 @@ public class Comprador extends Usuario {
         this.comprasRealizadas.add(obra);
     }
 }
-
-

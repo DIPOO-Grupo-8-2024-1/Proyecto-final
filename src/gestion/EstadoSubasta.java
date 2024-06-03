@@ -1,15 +1,9 @@
-/**
- * 
- */
 package gestion;
 
-/**
- * 
- */
 public enum EstadoSubasta {
-    EN_ESPERA("en espera"),
-    EN_ACTIVA("activa"),
-    FINALIZADA("finalizada");
+    PENDIENTE("pendiente"),  // La subasta ha sido creada pero aún no ha comenzado
+    EN_PROGRESO("en progreso"),  // La subasta está en curso
+    FINALIZADA("finalizada");  // La subasta ha finalizado
 
     private final String estado;
 

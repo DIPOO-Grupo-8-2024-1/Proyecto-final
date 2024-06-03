@@ -1,69 +1,81 @@
-/**
- * 
- */
 package gestion;
 
-import java.util.ArrayList;
+import obraDeArte.ObraDeArte;
+import usuario.Usuario;
+
 import java.util.List;
 
-import obraDeArte.EstadoObraDeArte;
-import obraDeArte.ObraDeArte;
-
 public class GaleriaDeArte {
-    private String nombre;
-    private String ubicacion;
-    private List<ObraDeArte> obrasDisponibles;
-    private List<ObraDeArte> obrasVendidas;
+    private Inventario inventario;
 
-    public GaleriaDeArte(String nombre, String ubicacion) {
-        this.nombre = nombre;
-        this.ubicacion = ubicacion;
-        this.obrasDisponibles = new ArrayList<>();
-        this.obrasVendidas = new ArrayList<>();
+    public GaleriaDeArte(String directorioPersistencia) {
+        this.inventario = new Inventario(directorioPersistencia);
     }
 
-    // Getters y Setters
-    public String getNombre() {
-        return nombre;
+    // Métodos para manejar el inventario
+    public void agregarObra(ObraDeArte obra) {
+        inventario.agregarObra(obra);
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public List<ObraDeArte> consultarObras() {
+        return inventario.consultarObras();
     }
 
-    public String getUbicacion() {
-        return ubicacion;
+    public void actualizarObra(String id, ObraDeArte obraActualizada) {
+        inventario.actualizarObra(id, obraActualizada);
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
+    public void eliminarObra(String id) {
+        inventario.eliminarObra(id);
     }
 
-    public List<ObraDeArte> getObrasDisponibles() {
-        return obrasDisponibles;
+    // Métodos para manejar subastas
+    public void agregarSubasta(Subasta subasta) {
+        inventario.agregarSubasta(subasta);
     }
 
-    public List<ObraDeArte> getObrasVendidas() {
-        return obrasVendidas;
+    public List<Subasta> consultarSubastas() {
+        return inventario.consultarSubastas();
     }
 
-    // Métodos para manejar las colecciones de obras de arte
-    public void agregarObraDisponible(ObraDeArte obra) {
-        obrasDisponibles.add(obra);
+    // Métodos para manejar ofertas
+    public void agregarOferta(Oferta oferta) {
+        inventario.agregarOferta(oferta);
     }
 
-    public void venderObra(ObraDeArte obra) {
-        if (obrasDisponibles.contains(obra)) {
-            obrasDisponibles.remove(obra);
-            obrasVendidas.add(obra);
-            // Aquí también podríamos cambiar el estado de la obra a VENDIDA.
-            obra.setEstado(EstadoObraDeArte.VENDIDA);
-        }
+    public List<Oferta> consultarOfertas() {
+        return inventario.consultarOfertas();
     }
 
-    public void eliminarObraVendida(ObraDeArte obra) {
-        obrasVendidas.remove(obra);
+    // Métodos para manejar pagos
+    public void agregarPago(Pago pago) {
+        inventario.agregarPago(pago);
     }
 
-    // Otros métodos útiles podrían incluir buscar por artista, título, etc.
+    public List<Pago> consultarPagos() {
+        return inventario.consultarPagos();
+    }
+
+    // Métodos para manejar usuarios
+    public void agregarUsuario(Usuario usuario) {
+        inventario.agregarUsuario(usuario);
+    }
+
+    public Usuario consultarUsuarioPorId(String id) {
+        return inventario.consultarUsuarioPorId(id);
+    }
+
+    public void actualizarUsuario(Usuario usuario) {
+        inventario.actualizarUsuario(usuario);
+    }
+
+    public boolean procesarCompra(Oferta oferta, MetodoDePago metodoPago) {
+        Pago nuevoPago = new Pago(
+            oferta.getId(), oferta.getIdComprador(), oferta.getValorOfrecido(),
+            java.time.LocalDateTime.now(), metodoPago, EstadoPago.PENDIENTE
+        );
+        return nuevoPago.procesarCompra(inventario);
+    }
 }
+
+

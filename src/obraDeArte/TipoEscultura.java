@@ -3,12 +3,14 @@
  */
 package obraDeArte;
 
+import java.io.Serializable;
+
 /**
  * 
  */
-public class TipoEscultura extends ObraDeArte {
-	
-    private double alto;
+public class TipoEscultura extends ObraDeArte implements Serializable {
+
+	private double alto;
     private double ancho;
     private double profundidad;
     private String material;
@@ -83,10 +85,9 @@ public class TipoEscultura extends ObraDeArte {
         return descripcion;
     }
 
-    public void serDescripcion(String descripcion) {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
 
     @Override
     public String obtenerDescripcion() {
@@ -107,4 +108,5 @@ public class TipoEscultura extends ObraDeArte {
         return alto * ancho * profundidad;
     }
 }
+
 

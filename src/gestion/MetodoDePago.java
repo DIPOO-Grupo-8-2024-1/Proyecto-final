@@ -1,11 +1,11 @@
-package oferta;
+package gestion;
 
 public enum MetodoDePago {
     DEBITO("debito"),
-    CREDITO("credito"),
+    TARJETA_CREDITO("credito"),
     EFECTIVO("efectivo"),
     CHEQUE("cheque"),
-    TRANSFERENCIA("transferencia");
+    TRANSFERENCIA_ELECTRONICA("transferencia");
 
     private final String metodo;
 
